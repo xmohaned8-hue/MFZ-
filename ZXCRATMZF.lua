@@ -1,51 +1,56 @@
--- [[ MZF ULTIMATE - ZXCRATMZF.lua ]] --
+-- [[ MZF BLADE MASTER | VANTABLACK EDITION ]] --
+-- [[ TARGET: BLADE BALL ]] --
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("🌑 ZXCRATMZF - BRAINROT GOD", "DarkTheme")
+local Window = Library.CreateLib("🌑 MZF - BLADE MASTER V1", "DarkTheme")
 
--- القائمة الأساسية
-local Tab1 = Window:NewTab("Main")
-local Section1 = Tab1:NewSection("Player & VIP")
+-- Tab: القوة المطلقة (Combat)
+local Tab1 = Window:NewTab("Combat")
+local Section1 = Tab1:NewSection("Auto Deflect & Reach")
 
--- حل مشكلة الـ VIP: حذف الحواجز التي تمنعك من الدخول
-Section1:NewButton("Unlock VIP Zone", "Force Open VIP", function()
-    for _, v in pairs(game.Workspace:GetDescendants()) do
-        if v.Name:lower():find("vip") and (v:IsA("BasePart") or v:IsA("Model")) then
-            v.CanCollide = false
-            v.Transparency = 0.5
-            if v:IsA("BasePart") then v:Destroy() end
+Section1:NewButton("God Mode (Auto Parry)", "Deflect the ball automatically", function()
+    -- محرك الصد التلقائي المطور
+    local LP = game.Players.LocalPlayer
+    game:GetService("RunService").PreRender:Connect(function()
+        for _, ball in pairs(game.Workspace.Balls:GetChildren()) do
+            local distance = (LP.Character.HumanoidRootPart.Position - ball.Position).Magnitude
+            if distance <= 25 then -- المسافة المثالية للصد
+                game:GetService("VirtualInputManager"):SendKeyEvent(true, "F", false, game)
+            end
         end
-    end
-    print("MZF: VIP UNLOCKED ✅")
+    end)
+    print("MZF: AUTO PARRY ACTIVE ✅")
 end)
 
-Section1:NewSlider("WalkSpeed", "Fast Speed", 500, 16, function(s)
+Section1:NewSlider("Deflect Range", "Change Parry Distance", 50, 10, function(v)
+    _G.ParryRange = v
+end)
+
+-- Tab: التحركات (Movement)
+local Tab2 = Window:NewTab("Movement")
+local Section2 = Tab2:NewSection("Speed & Agility")
+
+Section2:NewSlider("WalkSpeed", "Fast Movement", 200, 16, function(s)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
 end)
 
--- ميزة الـ Water و Tsunami
-local Tab2 = Window:NewTab("Tsunami Control")
-local Section2 = Tab2:NewSection("God Mode Settings")
-
--- ميزة الـ Delete Water: تجعلك لا تتأثر بالماء نهائياً
-Section2:NewButton("God Mode (Anti-Tsunami)", "Water won't kill you", function()
-    for _, v in pairs(game.Workspace:GetDescendants()) do
-        if v:IsA("TouchTransmitter") and (v.Parent.Name:lower():find("water") or v.Parent.Name:lower():find("tsunami")) then
-            v:Destroy() -- حذف مستشعر الموت في الماء
-        end
-    end
-    print("MZF: GOD MODE ACTIVE - WATER IS SAFE ✅")
-end)
-
--- ميزات إضافية للماب
-local Tab3 = Window:NewTab("Extra")
-local Section3 = Tab3:NewSection("Automation")
-
-Section3:NewToggle("Auto Collect Cash", "Get money", function(state)
-    _G.Collect = state
-    while _G.Collect do
-        task.wait(0.1)
-        -- هنا يوضع كود سحب الكاش البرمجي للماب
+Section2:NewButton("Invisible Mode", "Ghost on the map", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Transparency = 0.5
+    for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+        if v:IsA("BasePart") then v.CanCollide = false end
     end
 end)
- 
+
+-- Tab: البصريات (Visuals)
+local Tab3 = Window:NewTab("Visuals")
+local Section3 = Tab3:NewSection("Ball ESP")
+
+Section3:NewButton("Highlight Ball", "Never lose the ball", function()
+    for _, b in pairs(game.Workspace.Balls:GetChildren()) do
+        local highlight = Instance.new("Highlight")
+        highlight.Parent = b
+        highlight.FillColor = Color3.fromRGB(255, 0, 0)
+    end
+end)
+
+print("🌑 ZXCRATMZF BLADE MASTER LOADED!")
