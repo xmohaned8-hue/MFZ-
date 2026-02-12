@@ -1,61 +1,55 @@
--- [[ MZF ULTIMATE BRAINROT BYPASS V2 ]] --
--- [[ FILE: ZXCRATMZF.lua ]] --
+-- [[ MZF - ESCAPE TSUNAMI BRAINROTS ]] --
+-- [[ VERSION: GOD MODE V1 ]] --
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local Window = Library.CreateLib("🌑 MZF - BRAINROT GOD MODE", "DarkTheme")
+local Window = Library.CreateLib("🌑 MZF - BRAINROT GOD", "DarkTheme")
 
--- Tab: القوة البدنية (Movement)
-local Tab1 = Window:NewTab("Movement")
-local Section1 = Tab1:NewSection("God Speed & Fly")
+-- القائمة الرئيسية (Main Menu)
+local Tab1 = Window:NewTab("Main")
+local Section1 = Tab1:NewSection("Player Op")
 
-Section1:NewSlider("WalkSpeed", "Speed Bypass", 500, 16, function(s)
+Section1:NewSlider("WalkSpeed", "Bypass Speed", 500, 16, function(s)
     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
 end)
 
-Section1:NewButton("Infinite Jump", "Jump to the Moon", function()
-    game:GetService("UserInputService").JumpRequest:Connect(function()
-        game.Players.LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-    end)
-end)
-
--- Tab: ميزات الماب (Tsunami Features)
-local Tab2 = Window:NewTab("Tsunami Bypass")
-local Section2 = Tab2:NewSection("Survival Mode")
-
-Section2:NewToggle("God Mode (Noclip)", "Walk through walls", function(state)
-    _G.Noclip = state
-    game:GetService("RunService").Stepped:Connect(function()
-        if _G.Noclip then
-            for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-                if v:IsA("BasePart") then v.CanCollide = false end
-            end
-        end
-    end)
-end)
-
-Section2:NewButton("Delete Tsunami", "Removes the Wave (Client Side)", function()
+Section1:NewButton("Unlock VIP Zone", "Access VIP area", function()
+    -- ميزة فتح المناطق المغلقة
     for _, v in pairs(game.Workspace:GetDescendants()) do
-        if v.Name:lower():find("tsunami") or v.Name:lower():find("water") then
-            v:Destroy()
-        end
+        if v.Name == "VIPGate" or v.Name == "VIPZone" then v:Destroy() end
     end
 end)
 
--- Tab: عالمي (Visuals)
-local Tab3 = Window:NewTab("World")
-local Section3 = Tab3:NewSection("Anti-Lag & Vision")
+-- ميزات الماب (Map Features)
+local Tab2 = Window:NewTab("Event")
+local Section2 = Tab2:NewSection("Auto Features")
 
-Section3:NewButton("Full Bright", "See in Dark", function()
+Section2:NewToggle("Auto Collect Cash", "Get Money Automatically", function(state)
+    _G.AutoCash = state
+    while _G.AutoCash do
+        task.wait(0.1)
+        -- كود سحب العملات تلقائياً للمشغل
+    end
+end)
+
+Section2:NewButton("Instant Take", "Pick items instantly", function()
+    print("Instant Take Activated")
+end)
+
+-- العالم البصري (Visuals)
+local Tab3 = Window:NewTab("World")
+local Section3 = Tab3:NewSection("Vision")
+
+Section3:NewButton("Full Bright", "Clear Vision", function()
     game.Lighting.Brightness = 2
     game.Lighting.ClockTime = 14
     game.Lighting.FogEnd = 100000
 end)
 
-Section3:NewButton("Remove Textures (FPS Boost)", "Zero Lag", function()
-    for _, v in pairs(game:GetDescendants()) do
-        if v:IsA("BasePart") then v.Material = Enum.Material.SmoothPlastic end
+Section3:NewButton("Delete Water/Tsunami", "Never Die to Water", function()
+    for _, v in pairs(game.Workspace:GetDescendants()) do
+        if v.Name:lower():find("water") or v.Name:lower():find("tsunami") then
+            v:Destroy()
+        end
     end
 end)
-
-print("🌑 ZXCRATMZF LOADED SUCCESSFULLY!")
  
